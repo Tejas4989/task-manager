@@ -1,5 +1,6 @@
 package org.demo.task.manager.web.controller;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -34,14 +35,14 @@ class TaskController {
 
   //1. Create a Task.
   @PostMapping("/tasks")
-  public Task createTask(Task task) {
+  public Task createTask(@Valid @RequestBody Task task) {
     return taskService.createTask(task);
   }
 
   //2. Update Task.
   @PutMapping("/tasks/{taskId}")
   public Task updateTask(@PathVariable @NotNull Long taskId,
-      @RequestBody @NotNull Task task) {
+      @Valid @RequestBody @NotNull Task task) {
     return taskService.updateTask(taskId, task);
   }
 

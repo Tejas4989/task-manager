@@ -4,7 +4,7 @@ server:
 
 service:
   error:
-    includeStacktrace: false
+    includeStacktrace: true
 
 logging:
   level:

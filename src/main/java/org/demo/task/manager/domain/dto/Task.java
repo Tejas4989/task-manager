@@ -1,19 +1,20 @@
 package org.demo.task.manager.domain.dto;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.sql.Date;
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.demo.task.manager.domain.validation.contraint.TaskStatusConstraint;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@TaskStatusConstraint
 //@OpenAPIDefinition(info = "Model representing an request object of bulk simulation")
 public class Task implements Comparable<Task> {
 
