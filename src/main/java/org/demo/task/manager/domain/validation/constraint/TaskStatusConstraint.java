@@ -1,4 +1,4 @@
-package org.demo.task.manager.domain.validation.contraint;
+package org.demo.task.manager.domain.validation.constraint;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

@@ -3,15 +3,17 @@ package org.demo.task.manager.domain.validation.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.demo.task.manager.common.enumeration.Status;
 import org.demo.task.manager.domain.dto.Task;
-import org.demo.task.manager.domain.validation.contraint.TaskStatusConstraint;
+import org.demo.task.manager.domain.validation.constraint.TaskStatusConstraint;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class TaskStatusValidator implements ConstraintValidator<TaskStatusConstraint, Task> {
     @Override
     public void initialize(TaskStatusConstraint constraintAnnotation) {
@@ -31,7 +33,7 @@ public class TaskStatusValidator implements ConstraintValidator<TaskStatusConstr
             default -> {
                 String message = "unexpected status : " + task.getStatus()
                         + ". Excepted status: NEW/PROGRESS/COMPLETED";
-               System.out.println(message);
+               log.error(message);
                 return false;
             }
         }

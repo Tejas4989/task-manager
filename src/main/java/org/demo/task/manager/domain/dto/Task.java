@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.demo.task.manager.domain.validation.contraint.TaskStatusConstraint;
+import org.demo.task.manager.domain.validation.constraint.TaskStatusConstraint;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
