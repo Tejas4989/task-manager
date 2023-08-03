@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+  <property name="CONSOLE_LOG_PATTERN"
+    value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+  <springProperty scope="context" name="servicename" source="spring.application.name"/>
+  <springProperty name="LOGSTASH_SERVER" source="logstash.server"/>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+      <charset>utf8</charset>
+    </encoder>
+  </appender>
+
+  <!--
+    By default, the level of the root level is set to INFO. Unless an entry added to application.yml
+    for a certain package logging.level, logging will stay at the root level.
+  -->
+  <springProfile name="localhost,test">
+
+    <root level="INFO">
+      <appender-ref ref="STDOUT"/>
+    </root>
+
+  </springProfile>
+
+  <springProfile name="dev,qa,preview,prod" >
+
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+      <destination>${LOGSTASH_SERVER}</destination>
+      <keepAliveDuration>5 minutes</keepAliveDuration>
+      <reconnectionDelay>10 second</reconnectionDelay>
+      <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+
+        <customFields>{"pid": ${PID}, "type": "java", "hostname": "${HOSTNAME}"}</customFields>
+        <fieldNames class="net.logstash.logback.fieldnames.ShortenedFieldNames"/>
+        <shortenedLoggerNameLength>36</shortenedLoggerNameLength>
+        <timeZone>UTC</timeZone>
+      </encoder>
+    </appender>
+
+    <root level="INFO">
+      <appender-ref ref="STDOUT"/>
+      <appender-ref ref="LOGSTASH"/>
+    </root>
+
+  </springProfile>
+</configuration>

@@ -3,10 +3,12 @@ package org.demo.task.manager.domain.dto;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.sql.Date;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 @AllArgsConstructor
@@ -24,13 +26,15 @@ public class Task implements Comparable<Task> {
   @Schema(description = "Status of the task", example = "NEW", required = false)
   private String status;
   @Schema(description = "Due date of the task", example = "2020-10-10", required = true)
-  private Date dueDate;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private LocalDate dueDate;
   @Schema(description = "Priority of the task", example = "HIGH", required = false, readOnly = true)
   private String priority;
   @Schema(description = "Progress percentage of the task", example = "0",  readOnly = true)
   private int progressPercentage;
   @Schema(description = "Completed date of the task", example = "2020-10-10", readOnly = true)
-  private Date completedDate;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private LocalDate completedDate;
   @Schema(description = "User ID of the task", example = "1", readOnly = true)
   private Long userId;
 

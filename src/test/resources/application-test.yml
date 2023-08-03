@@ -1,0 +1,3 @@
+embedded-database:
+  integration-tests: true
+

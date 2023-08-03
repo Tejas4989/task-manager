@@ -6,7 +6,18 @@ service:
   error:
     includeStacktrace: false
 
+logging:
+  level:
+    org.demo.task.manager: ${APP_LOG_VERBOSITY:TRACE}
+    com.zaxxer.hikari.HikariConfig: DEBUG
+
+logstash:
+  server: https://logserver.url
+
+
 spring:
+  application:
+    name: task-manager-service
   datasource:
     url: jdbc:h2:mem:service_db
     driver-class-name: org.h2.Driver
@@ -23,3 +34,5 @@ spring:
     properties:
       hibernate:
         default_schema: task_manager
+  profiles:
+    active: localhost

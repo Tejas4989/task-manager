@@ -4,12 +4,15 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.demo.task.manager.domain.dto.Task;
 import org.demo.task.manager.domain.dto.TaskPriorityQueue;
 import org.demo.task.manager.domain.dto.TaskStatistics;
 import org.demo.task.manager.service.TaskService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class TaskController {
+@Slf4j
+class TaskController {
 
   private final TaskService taskService;
 
@@ -86,9 +90,9 @@ public class TaskController {
 
   //10. Get completed tasks by date range
   @GetMapping("/tasks/completed/{startDate}/{endDate}")
-  public List<Task> getCompletedTasksByDateRange(@PathVariable @NotNull Date startDate,
-      @PathVariable @NotNull Date endDate) {
-    return taskService.getCompletedTasksByDateRange(startDate, endDate);
+  public List<Task> getCompletedTasksByDateRange(@PathVariable @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+      @PathVariable @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+    return taskService.getCompletedTasksByDateRange(Date.valueOf(startDate), Date.valueOf(endDate));
   }
 
   //11. Get tasks statistics
@@ -104,9 +108,8 @@ public class TaskController {
     // Retrieve tasks in the priority order until the queue is empty
     while (!priorityQueue.isEmpty()) {
       Task nextTask = priorityQueue.getNextTask();
-      System.out.println(
-          "Next Task: " + nextTask.getDescription() + ", Due Date: " + nextTask.getDueDate()
-              + ", Priority: " + nextTask.getPriority());
+    log.info("Next Task: {}, Due Date: {}, Priority: {}",
+        nextTask.getTitle(), nextTask.getDueDate(), nextTask.getPriority());
     }
   }
 

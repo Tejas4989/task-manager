@@ -50,7 +50,7 @@ public class TaskService {
     TaskEntity taskEntity = getTaskEntityById(taskId);
     taskEntity.setTitle(task.getTitle());
     taskEntity.setDescription(task.getDescription());
-    taskEntity.setDueDate(task.getDueDate());
+    taskEntity.setDueDate(Date.valueOf(task.getDueDate()));
     taskEntity.setStatus(task.getStatus());
     //if status is completed then add the completion date
     if (task.getStatus().equals("COMPLETED")) {
